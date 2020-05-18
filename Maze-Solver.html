@@ -10,7 +10,7 @@
 
 var canvas,ctx;
 var body;
-
+var sid=0;
 var rows=35;
 var cols=35;
 var w,h;
@@ -166,12 +166,9 @@ function sleep (ms)
 
 async function setup()
 {
-    canvas = document.createElement("Canvas");
-    canvas.id = "grid";
+    canvas = document.getElementById("grid");
     canvas.width = 580;
     canvas.height = 580;
-    body = document.getElementsByTagName("body")[0];
-    body.appendChild(canvas);
     ctx=canvas.getContext("2d");
 
     w=canvas.width/cols;
@@ -393,6 +390,7 @@ function submit()
 {
     if(s==0)
         { 
+            sid=1;
             if(inbetween==0)
             {    
                 if(!(starti==-1 && startj==-1) && !(endi==-1 && endj==-1) )
@@ -427,6 +425,11 @@ function submit()
 
 function start()
 {
+    if(sid==1)
+    {
+        setup();
+        sid=0;
+    }
     if(s==0)
     {
         s=1;
@@ -446,7 +449,12 @@ function start()
 }
 
 function end()
-{
+{   
+    if(sid==1)
+    {
+        setup();
+        sid=0;
+    }
     if(s==0)
     {
         s=2;
@@ -467,6 +475,12 @@ function end()
 
 function inbet()
 {
+    if(sid==1)
+    {
+        setup();
+        sid=0;
+    }
+    
     if(s==0)
     {
         s=3;
@@ -494,9 +508,9 @@ function inbet()
         <p>
             There are two modes:
             <br>
-            1. Pick Start and End Node then press Submit
+            1. Click Start select a node and then click End and select Node then press Submit
             <br>
-            2. Pick Start , In-Between , and End Node then click Submit
+            2. Click Start then select a node , then click In-Between and select a node , and then click End and select a Node then click Submit
             <br>
         </p>
     </div>
@@ -504,8 +518,10 @@ function inbet()
     <input  type="button" id="end" name="end" onclick="end()" value="End" >
     <input  type="button" id="inbetween" name="inbetween" onclick="inbet()" value="In-Between" >
     <input  type="button" id="submit" name="submit" onclick="submit()" value="Submit" >
+    <input  type="button" id="resets" name="reset" onclick="setup()" value="Reset" >
     <br>
-    <br>   
+    <br> 
+    <canvas id="grid"></canvas>  
     <script type="text/javascript">
     
     setup();
